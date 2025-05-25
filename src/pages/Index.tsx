@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Star, Sparkles, CheckCircle, Building, User, Mail, MessageSquare, Award, Linkedin } from 'lucide-react';
 
+interface FormData {
+  fullName: string;
+  businessName: string;
+  email: string;
+  problemBefore: string;
+  workingExperience: string;
+  finalWebsiteFeeling: string;
+  resultsNoticed: string;
+  leaveTestimonial: string;
+  testimonialText: string;
+  displayPermission: string;
+  linkedinRecommendation: string;
+}
+
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     businessName: '',
     email: '',
@@ -41,8 +55,8 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
 
-  const validateStep = (step) => {
-    const newErrors = {};
+  const validateStep = (step: number) => {
+    const newErrors: Record<string, string> = {};
     
     if (step === 1) {
       if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
@@ -82,7 +96,7 @@ const Index = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep(currentStep)) {
       setShowConfetti(true);
@@ -93,7 +107,7 @@ const Index = () => {
     }
   };
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
