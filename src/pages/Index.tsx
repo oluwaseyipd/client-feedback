@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Heart, Star, Sparkles, CheckCircle, Building, User, Mail, MessageSquare, Award, Linkedin } from 'lucide-react';
 
@@ -19,7 +18,7 @@ const Index = () => {
   });
   const [showThankYou, setShowThankYou] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
@@ -273,7 +272,7 @@ const Index = () => {
                     rows={4}
                     className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
                       errors.problemBefore ? 'border-red-300 bg-red-50' : 'border-blue-200 focus:border-blue-500'
-                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none`}
+                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none text-gray-900`}
                     placeholder="Share your challenges before we started working together... 🤔"
                   />
                   {errors.problemBefore && <p className="text-red-500 text-sm mt-1">{errors.problemBefore}</p>}
@@ -289,7 +288,7 @@ const Index = () => {
                     rows={4}
                     className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
                       errors.workingExperience ? 'border-red-300 bg-red-50' : 'border-blue-200 focus:border-blue-500'
-                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none`}
+                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none text-gray-900`}
                     placeholder="Describe our collaboration process... 🤝"
                   />
                   {errors.workingExperience && <p className="text-red-500 text-sm mt-1">{errors.workingExperience}</p>}
@@ -305,7 +304,7 @@ const Index = () => {
                     rows={4}
                     className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
                       errors.finalWebsiteFeeling ? 'border-red-300 bg-red-50' : 'border-blue-200 focus:border-blue-500'
-                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none`}
+                    } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none text-gray-900`}
                     placeholder="Share your thoughts on the final result... 🎯"
                   />
                   {errors.finalWebsiteFeeling && <p className="text-red-500 text-sm mt-1">{errors.finalWebsiteFeeling}</p>}
@@ -319,7 +318,7 @@ const Index = () => {
                     value={formData.resultsNoticed}
                     onChange={(e) => handleInputChange('resultsNoticed', e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-blue-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-blue-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-300 resize-none text-gray-900"
                     placeholder="Any improvements in traffic, sales, or engagement? 📈"
                   />
                 </div>
@@ -373,7 +372,7 @@ const Index = () => {
                       rows={5}
                       className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
                         errors.testimonialText ? 'border-red-300 bg-red-50' : 'border-blue-200 focus:border-blue-500'
-                      } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none`}
+                      } focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none text-gray-900`}
                       placeholder="Write your amazing testimonial here... 🌟"
                     />
                     {errors.testimonialText && <p className="text-red-500 text-sm mt-1">{errors.testimonialText}</p>}
