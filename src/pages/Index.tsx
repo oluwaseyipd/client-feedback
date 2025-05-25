@@ -78,8 +78,10 @@ const Index = () => {
     }
     
     if (step === 4) {
-      if (!formData.displayPermission) newErrors.displayPermission = 'Please select an option';
-      if (!formData.linkedinRecommendation) newErrors.linkedinRecommendation = 'Please select an option';
+      if (formData.leaveTestimonial === 'yes') {
+        if (!formData.displayPermission) newErrors.displayPermission = 'Please select an option';
+        if (!formData.linkedinRecommendation) newErrors.linkedinRecommendation = 'Please select an option';
+      }
     }
 
     setErrors(newErrors);
@@ -88,7 +90,16 @@ const Index = () => {
 
   const handleNext = () => {
     if (validateStep(currentStep)) {
-      setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+      if (currentStep === 3 && formData.leaveTestimonial === 'no') {
+        // Skip step 4 if user doesn't want to leave testimonial
+        setShowConfetti(true);
+        setTimeout(() => {
+          setShowThankYou(true);
+          setShowConfetti(false);
+        }, 2000);
+      } else {
+        setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+      }
     }
   };
 
