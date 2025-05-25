@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from '@formspree/react';
 import { Heart, Star, Sparkles, CheckCircle, Building, User, Mail, MessageSquare, Award, Linkedin } from 'lucide-react';
 
 interface FormData {
@@ -16,6 +17,9 @@ interface FormData {
 }
 
 const Index = () => {
+  // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
+  const [state, handleFormspreeSubmit] = useForm("mvgajren");
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
@@ -91,16 +95,47 @@ const Index = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep(currentStep)) {
+      // Create form data object for Formspree
+      const formDataForSubmission = new FormData();
+      
+      // Add all form fields to FormData
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value) {
+          formDataForSubmission.append(key, value);
+        }
+      });
+      
+      // Submit to Formspree
+      try {
+        await handleFormspreeSubmit(formDataForSubmission);
+        
+        if (state.succeeded) {
+          setShowConfetti(true);
+          setTimeout(() => {
+            setShowThankYou(true);
+            setShowConfetti(false);
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle error - you might want to show an error message to the user
+      }
+    }
+  };
+
+  // Check if form was successfully submitted
+  useEffect(() => {
+    if (state.succeeded) {
       setShowConfetti(true);
       setTimeout(() => {
         setShowThankYou(true);
         setShowConfetti(false);
       }, 2000);
     }
-  };
+  }, [state.succeeded]);
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -506,10 +541,14 @@ const Index = () => {
               ) : (
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
+                  onClick={handleSubmit}
+                  disabled={state.submitting}
+                  className={`px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2 ${
+                    state.submitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   <Sparkles size={20} />
-                  Submit Feedback! 🎉
+                  {state.submitting ? 'Submitting...' : 'Submit Feedback! 🎉'}
                 </button>
               )}
             </div>
