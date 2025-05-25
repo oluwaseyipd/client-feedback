@@ -55,7 +55,7 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
 
-  const validateStep = (step: number) => {
+  const validateStep = (step: number): boolean => {
     const newErrors: Record<string, string> = {};
     
     if (step === 1) {
